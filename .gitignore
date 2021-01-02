@@ -1,0 +1,6 @@
+# Generated resources
+resources/org*
+
+# IDE folders
+.vscode
+.idea
