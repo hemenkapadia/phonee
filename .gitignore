@@ -1,5 +1,7 @@
 # Generated resources
+resources/certificate_authority
 resources/org*
+
 
 # IDE folders
 .vscode

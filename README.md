@@ -5,7 +5,6 @@ phonee - Phony Enterprise Environment
 
 
 
-
 Notes to be better formatted.
 
 - Will use the [Legacy Reserved TLD] `.test` to create a local domain `phonee.test`.
@@ -18,7 +17,10 @@ Notes to be better formatted.
   - `cert` supports actions `[create|info]` 
 
 
-
+TODO
+- Dependencies does not install docker currently.
+  - Phonee assumes docker is installed on the system.
+  - It also assumes that `$USER` is added to the `docker` group
 
 
 

@@ -24,7 +24,7 @@ readonly key_size="${key_size:-2048}"
 # domain name options
 # shellcheck disable=SC2018
 readonly randstr=$(head /dev/urandom | tr -dc 'a-z' | fold -w 5 | head -n 1)
-readonly sub_domain_prefix="${1:-randstr}"
+readonly sub_domain_prefix="${1:-${randstr}}"
 readonly sub_domain="${sub_domain:-phonee.sslip.io}"
 readonly domain="${sub_domain_prefix}-${sub_domain}"
 # root CA options
