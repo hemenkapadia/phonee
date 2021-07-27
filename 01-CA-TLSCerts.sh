@@ -269,6 +269,7 @@ generate_server_wildcard_certificate_csrjson () {
     }
   ],
   "hosts": [
+    "${domain}"
     "*.${domain}"
   ]
 }
