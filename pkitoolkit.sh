@@ -471,8 +471,8 @@ Usage: $script_name [OPTIONS]
 
 OPTIONS:
      -d|--domain <arg1>                     Root domain name (e.g. example.com)
-     -cn|--commonname <arg1>                Subject Common Name of leaf certificate (e.g. www.example.com)
-     -wc|--wildcard                         Generate a wildcard certificate for common name
+     -c|--commonname <arg1>                 Subject Common Name of leaf certificate (e.g. www.example.com)
+     -w|--wildcard                          Generate a wildcard certificate for common name
      -s|--sans "<arg1>, <arg2>, ..,<argN>"  Subject Alternative Name (SAN) for leaf certificate (e.g. "sd1.example.com sd2.example.com")
      -h|--help                              Displays this help
      -v|--verbose                           Displays verbose output
@@ -493,7 +493,7 @@ function parse_params() {
             domain="$1"
             shift
             ;;
-        -cn | --commonname)
+        -c | --commonname)
             commonname="$1"
             shift
             ;;
@@ -501,7 +501,7 @@ function parse_params() {
             sans="$1"
             shift
             ;;
-        -wc | --wildcard)
+        -w | --wildcard)
             wildcard=true
             ;;
         -h | --help)
@@ -616,7 +616,7 @@ function set_default_ca_vars() {
 # OUTS: None
 function generate_ca_config () {
   mkdir -p "${ca_resource_dir}/${domain}"
-  tee "${ca_resource_dir}/${domain}/ca-config.json" <<CA_CONFIG
+  tee "${ca_resource_dir}/${domain}/ca-config.json" > /dev/null <<CA_CONFIG
 {
   "signing": {
     "default": {
@@ -680,7 +680,7 @@ CA_CONFIG
 # OUTS: None
 function generate_root_ca_csrjson () {
   mkdir -p "${ca_resource_dir}/${domain}/root_ca"
-  tee "${ca_resource_dir}/${domain}/root_ca/root_ca_csr.json" <<ROOT_CA_CSR
+  tee "${ca_resource_dir}/${domain}/root_ca/root_ca_csr.json" > /dev/null <<ROOT_CA_CSR
 {
   "CN": "${root_ca_subject}",
   "key": {
@@ -720,7 +720,7 @@ function generate_root_ca () {
 # OUTS: None
 function generate_intermediate_ca_csrjson () {
   mkdir -p "${ca_resource_dir}/${domain}/intermediate_ca"
-  tee "${ca_resource_dir}/${domain}/intermediate_ca/intermediate_ca_csr.json" <<INTERMEDIATE_CA_CSR
+  tee "${ca_resource_dir}/${domain}/intermediate_ca/intermediate_ca_csr.json" > /dev/null <<INTERMEDIATE_CA_CSR
 {
   "CN": "${int_ca_subject}",
   "key": {
@@ -766,7 +766,7 @@ function generate_intermediate_ca () {
 # ARGS: None
 # OUTS: None
 function generate_leaf_certificate_csrjson () {
-  tee "${ca_resource_dir}/${domain}/${commonname}/leaf_cert_csr.json" <<SERVER_WILDCARD_CSR
+  tee "${ca_resource_dir}/${domain}/${commonname}/leaf_cert_csr.json" > /dev/null <<SERVER_WILDCARD_CSR
 {
   "CN": "${leaf_cert_subject}",
   "key": {
@@ -795,7 +795,7 @@ SERVER_WILDCARD_CSR
   fi
   # remove last comma
   sed -i '$ s/,$//' "${ca_resource_dir}/${domain}/${commonname}/leaf_cert_csr.json"
-  tee -a "${ca_resource_dir}/${domain}/${commonname}/leaf_cert_csr.json" <<SERVER_WILDCARD_CSR
+  tee -a "${ca_resource_dir}/${domain}/${commonname}/leaf_cert_csr.json" > /dev/null <<SERVER_WILDCARD_CSR
   ]
 }
 SERVER_WILDCARD_CSR
@@ -821,7 +821,7 @@ function generate_leaf_certificate () {
       "../root_ca/root_ca.pem" > leaf_intermediate_root_chain.pem && \
     cat "leaf_cert.pem" \
       "../intermediate_ca/intermediate_ca.pem" > leaf_intermediate_chain.pem && \
-    success "Server Certificate Chains created." && \
+    success "Leaf Certificate Chains created." && \
     popd )
 }
 
